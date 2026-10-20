@@ -10,6 +10,7 @@ public class SpatialTablet : MonoBehaviour
     [SerializeField] private float verticalOffset = -0.15f;
 
     private InputAction toggleAction;
+    private bool controllerButtonWasPressed;
 
     private void Awake()
     {
@@ -25,14 +26,12 @@ public class SpatialTablet : MonoBehaviour
 
         toggleAction.AddBinding("<Keyboard>/f2");
 
-        toggleAction.AddBinding(
-            "<XRController>{LeftHand}/menuButton");
-
         tablet.SetActive(false);
     }
 
     private void OnEnable()
     {
+        controllerButtonWasPressed = false;
         if (toggleAction == null)
             return;
 
@@ -52,6 +51,25 @@ public class SpatialTablet : MonoBehaviour
     private void OnDestroy()
     {
         toggleAction?.Dispose();
+    }
+
+    private void Update()
+    {
+        var right = UnityEngine.XR.InputDevices.GetDeviceAtXRNode(
+            UnityEngine.XR.XRNode.RightHand);
+        var left = UnityEngine.XR.InputDevices.GetDeviceAtXRNode(
+            UnityEngine.XR.XRNode.LeftHand);
+
+        bool rightPressed = right.TryGetFeatureValue(
+            UnityEngine.XR.CommonUsages.secondaryButton, out bool secondary) && secondary;
+        bool leftPressed = left.TryGetFeatureValue(
+            UnityEngine.XR.CommonUsages.menuButton, out bool menu) && menu;
+        bool pressed = rightPressed || leftPressed;
+
+        if (pressed && !controllerButtonWasPressed)
+            Toggle();
+
+        controllerButtonWasPressed = pressed;
     }
 
     private void OnToggle(InputAction.CallbackContext context)

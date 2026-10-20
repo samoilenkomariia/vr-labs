@@ -215,7 +215,7 @@ public class Lab3Wizard : MonoBehaviour
             $"Operator: {operatorInput.text.Trim()}\n" +
             $"Temperature: {temperatureSlider.value:0} °C\n" +
             $"Errors: {errors}\n" +
-            $"Time: {finishedSeconds:0.0} с\n\n" +
+            $"Time: {finishedSeconds:0.0} s\n\n" +
             "Result saved.";
 
         messageText.text = "";
