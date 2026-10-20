@@ -15,7 +15,6 @@ public class SpatialTablet : MonoBehaviour
     {
         if (head == null || tablet == null)
         {
-            Debug.LogError("[SpatialTablet] Assign Head and Tablet in the Inspector.", this);
             enabled = false;
             return;
         }
@@ -39,7 +38,6 @@ public class SpatialTablet : MonoBehaviour
 
         toggleAction.performed += OnToggle;
         toggleAction.Enable();
-        Debug.Log("[SpatialTablet] Ready. Press F2 with Unity Game view focused, or use Open Tablet (Play Mode) in this component's context menu.", this);
     }
 
     private void OnDisable()
@@ -58,7 +56,6 @@ public class SpatialTablet : MonoBehaviour
 
     private void OnToggle(InputAction.CallbackContext context)
     {
-        Debug.Log($"[SpatialTablet] Input received: {context.control.path}", this);
         Toggle();
     }
 
@@ -102,7 +99,6 @@ public class SpatialTablet : MonoBehaviour
             Quaternion.LookRotation(forward, Vector3.up);
 
         tablet.SetActive(true);
-        Debug.Log($"[SpatialTablet] Opened at {tablet.transform.position}. Active in hierarchy: {tablet.activeInHierarchy}", this);
     }
 
     [ContextMenu("Close Tablet (Play Mode)")]
